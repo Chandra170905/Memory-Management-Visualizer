@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+
+    /* Light Mode Colors */
+    --bg-light-1: #E6E1EA;
+    --bg-light-2: #BFB3C8;
+    --primary-light: #8E5A9F;
+
+    --text-light: #2A1F2D;
+    --accent: #F26405;
+  }
+
+  .dark {
+    color-scheme: dark;
+
+    /* Dark Mode Colors */
+    --bg-dark-1: #000000;
+    --bg-dark-2: #1A1A1A;
+    --bg-dark-3: #232323;
+
+    --text-dark: #D4D4D4;
+    --accent: #F26405;
+  }
+
+  body {
+    @apply antialiased;
+
+    background: linear-gradient(
+      to bottom,
+      var(--bg-light-1),
+      var(--bg-light-2)
+    );
+
+    color: var(--text-light);
+  }
+
+  .dark body {
+    background: linear-gradient(
+      to bottom,
+      var(--bg-dark-1),
+      var(--bg-dark-2),
+      var(--bg-dark-3)
+    );
+
+    color: var(--text-dark);
+  }
+}
+
+.btn-primary {
+  background-color: var(--accent);
+  color: white;
+  transition: 0.3s;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+  box-shadow: 0 0 12px #F26405aa;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+}
+
+.dark .card {
+  background: rgba(35, 35, 35, 0.6);
+}
+
+.heading {
+  color: var(--primary-light);
+}
+
+.dark .heading {
+  color: var(--accent);
+}
+
+.accent-text {
+  color: var(--accent);
+}
+
+.glow:hover {
+  text-shadow: 0 0 8px #F26405;
+}
+
+@keyframes mmv-pop {
+  0% {
+    transform: translateY(0);
+  }
+  35% {
+    transform: translateY(-2px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.mmv-pop {
+  animation: mmv-pop 420ms ease-out;
+}

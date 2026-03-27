@@ -19,6 +19,7 @@ export default function ApiStatus() {
 
     tick();
     const id = setInterval(tick, 10000);
+
     return () => {
       cancelled = true;
       clearInterval(id);
@@ -27,30 +28,28 @@ export default function ApiStatus() {
 
   const label =
     state.ok === null
-      ? "API: checking…"
+      ? "Engine checking..."
       : state.ok
         ? state.binaryExists
-          ? "API: online"
-          : "API: online (build C++)"
-        : "API: offline";
+          ? "Engine online"
+          : "API online, build C++"
+        : "Engine offline";
 
-  const tone =
+  const toneClass =
     state.ok === null
-      ? "bg-zinc-100 text-zinc-700 dark:bg-zinc-900 dark:text-zinc-300"
+      ? "text-slate-500 dark:text-slate-300"
       : state.ok
         ? state.binaryExists
-          ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900"
-          : "bg-zinc-200 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-200"
-        : "bg-zinc-200 text-zinc-900 dark:bg-zinc-800 dark:text-zinc-200";
+          ? "text-emerald-500"
+          : "text-amber-500"
+        : "text-rose-500";
 
   return (
     <div
-      className={[
-        "hidden rounded-xl px-3 py-2 text-xs font-semibold shadow-sm sm:inline-flex",
-        tone
-      ].join(" ")}
+      className="status-chip hidden items-center gap-2 rounded-full px-3 py-2 text-xs font-semibold shadow-sm sm:inline-flex"
       title="Server status (http://localhost:5174)"
     >
+      <span className={["status-dot", toneClass].join(" ")} />
       {label}
     </div>
   );

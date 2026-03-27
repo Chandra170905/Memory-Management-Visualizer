@@ -14,6 +14,21 @@ function getInitialTheme() {
     : "light";
 }
 
+const TAB_META = {
+  sim: {
+    label: "Mission Simulator",
+    title: "Live process monitoring for page replacement",
+    description:
+      "Run an adaptive memory mission, trace every page request, and narrate each replacement in a classroom-friendly flow."
+  },
+  compare: {
+    label: "Algorithm Arena",
+    title: "Gamified comparison of FIFO, LRU, and Optimal",
+    description:
+      "Pit all three strategies against the same workload and turn fault counts into a visual scoreboard learners can discuss."
+  }
+};
+
 export default function App() {
   const [theme, setTheme] = useState(getInitialTheme);
   const [tab, setTab] = useState(() => readShareParams().tab);
@@ -32,111 +47,196 @@ export default function App() {
 
   const tabs = useMemo(
     () => [
-      { id: "sim", label: "Simulator" },
-      { id: "compare", label: "Comparison" }
+      { id: "sim", label: "Mission Simulator" },
+      { id: "compare", label: "Algorithm Arena" }
     ],
     []
   );
 
+  const activeTab = TAB_META[tab] || TAB_META.sim;
+
   return (
-    <div className="min-h-dvh">
-      <header className="sticky top-0 z-20 bg-white/70 backdrop-blur dark:bg-zinc-900/70">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-          <div className="flex items-center gap-3">
-            <div className="grid h-10 w-10 place-items-center rounded-xl bg-zinc-900 text-white shadow-sm dark:bg-zinc-100 dark:text-zinc-900">
-              <span className="text-sm font-semibold tracking-wide">MM</span>
-            </div>
+    <div className="app-shell min-h-dvh">
+      <div className="pointer-events-none fixed inset-0 overflow-hidden">
+        <div className="app-orb app-orb-one" />
+        <div className="app-orb app-orb-two" />
+        <div className="app-grid" />
+      </div>
+
+      <header className="sticky top-0 z-30 border-b border-white/10 bg-slate-950/75 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-4">
+            <div className="logo-chip">ABS</div>
             <div>
-              <div className="text-sm font-semibold tracking-wide">
-                Memory Management Visualizer
+              <div className="text-[11px] font-semibold uppercase tracking-[0.28em] text-cyan-200/80">
+                Gamified Interactive Process Monitoring System
               </div>
-              <div className="text-xs text-zinc-600 dark:text-zinc-300">
-                Paging • FIFO/LRU/Optimal • Step-by-step • Auto mode
+              <div className="text-sm font-semibold text-white sm:text-base">
+                Adaptive Behavioral Simulation Lab
               </div>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
             <ApiStatus />
-            <nav className="hidden items-center gap-1 rounded-xl bg-slate-100 p-1 text-sm dark:bg-zinc-900 md:flex">
-              {tabs.map((t) => (
-                <button
-                  key={t.id}
-                  onClick={() => setTab(t.id)}
-                  className={[
-                    "rounded-lg px-3 py-1.5 transition",
-                    tab === t.id
-                      ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900"
-                      : "text-zinc-700 hover:bg-white/70 dark:text-zinc-200 dark:hover:bg-white/10"
-                  ].join(" ")}
-                >
-                  {t.label}
-                </button>
-              ))}
-            </nav>
-
             <button
               onClick={() => setHelpOpen(true)}
-              className="inline-flex items-center gap-2 rounded-xl bg-slate-100 px-3 py-2 text-sm font-semibold text-zinc-800 shadow-sm transition hover:bg-slate-200/70 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-white/10"
-              aria-label="Open help"
-              title="Help"
+              className="ghost-button px-4 py-2 text-sm font-semibold text-white"
             >
-              Help
+              Guide
             </button>
-
             <button
-              onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}
-              className="inline-flex items-center gap-2 rounded-xl bg-slate-100 px-3 py-2 text-sm text-zinc-800 shadow-sm transition hover:bg-slate-200/70 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-white/10"
-              aria-label="Toggle dark mode"
-              title="Dark mode"
+              onClick={() => setTheme((value) => (value === "dark" ? "light" : "dark"))}
+              className="ghost-button inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white"
+              aria-label="Toggle theme"
             >
               {theme === "dark" ? <MoonIcon /> : <SunIcon />}
-              <span className="hidden sm:inline">
-                {theme === "dark" ? "Dark" : "Light"}
-              </span>
+              <span className="hidden sm:inline">{theme === "dark" ? "Dark" : "Light"}</span>
             </button>
           </div>
         </div>
       </header>
 
-      <main className="mx-auto max-w-6xl px-4 py-6">
-        <div className="mb-6 grid gap-4 rounded-2xl bg-white/80 p-5 shadow-sm backdrop-blur-sm dark:bg-zinc-900">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div>
-              <div className="text-lg font-semibold">Visualize paging in real time</div>
-              <div className="text-sm text-zinc-600 dark:text-zinc-300">
-                Page faults are marked with{" "}
-                <span className="inline-flex items-center gap-1">
-                  <span aria-hidden>🔴</span>
-                  <span className="font-medium">fault</span>
-                </span>
-                . Step through manually or use Auto Simulation Mode.
+      <main className="relative mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <section className="hero-panel rounded-[2rem] p-6 sm:p-8">
+          <div className="grid gap-8 lg:grid-cols-[1.2fr,0.8fr] lg:items-end">
+            <div className="relative z-10">
+              <div className="eyebrow">Adaptive Behavioral Simulation for memory education</div>
+              <h1 className="mt-4 max-w-3xl text-3xl font-semibold tracking-tight text-slate-950 dark:text-white sm:text-5xl">
+                Turn page replacement into a visual mission students can predict, monitor, and master.
+              </h1>
+              <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-700 dark:text-slate-300 sm:text-base">
+                This upgraded experience reframes memory management like a live operations console. Learners can explore workload behavior, watch page faults unfold frame by frame, and compare strategies through a game-like teaching flow.
+              </p>
+
+              <div className="mt-6 flex flex-wrap gap-3">
+                {tabs.map((item) => (
+                  <button
+                    key={item.id}
+                    onClick={() => setTab(item.id)}
+                    className={[
+                      "tab-button px-5 py-3 text-sm font-semibold",
+                      tab === item.id ? "tab-button-active" : ""
+                    ].join(" ")}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </div>
+
+              <div className="mt-6 grid gap-3 sm:grid-cols-3">
+                <div className="metric-card">
+                  <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">
+                    Observe
+                  </div>
+                  <div className="mt-2 text-lg font-semibold text-slate-950 dark:text-white">
+                    Live frame states
+                  </div>
+                  <div className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
+                    Every memory slot updates in real time so replacement choices are easy to follow.
+                  </div>
+                </div>
+                <div className="metric-card">
+                  <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">
+                    Predict
+                  </div>
+                  <div className="mt-2 text-lg font-semibold text-slate-950 dark:text-white">
+                    Adaptive workloads
+                  </div>
+                  <div className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
+                    Generate traces with configurable locality, page range, and sequence length.
+                  </div>
+                </div>
+                <div className="metric-card">
+                  <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">
+                    Compare
+                  </div>
+                  <div className="mt-2 text-lg font-semibold text-slate-950 dark:text-white">
+                    Arena scoreboard
+                  </div>
+                  <div className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
+                    Convert total faults into a visual ranking for classroom discussion.
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="flex items-center gap-2 md:hidden">
-              {tabs.map((t) => (
-                <button
-                  key={t.id}
-                  onClick={() => setTab(t.id)}
-                  className={[
-                    "rounded-xl bg-slate-100 px-3 py-2 text-sm transition dark:bg-zinc-900",
-                    tab === t.id
-                      ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900"
-                      : "text-zinc-700 hover:bg-slate-200/70 dark:text-zinc-200 dark:hover:bg-white/10"
-                  ].join(" ")}
-                >
-                  {t.label}
-                </button>
-              ))}
+
+            <div className="grid gap-3">
+              <div className="metric-card">
+                <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">
+                  Current mode
+                </div>
+                <div className="mt-2 text-2xl font-semibold text-slate-950 dark:text-white">
+                  {activeTab.label}
+                </div>
+                <div className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
+                  {activeTab.description}
+                </div>
+              </div>
+              <div className="metric-card">
+                <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">
+                  Teaching outcome
+                </div>
+                <div className="mt-2 text-lg font-semibold text-slate-950 dark:text-white">
+                  Understand memory pressure with visuals instead of abstract tables.
+                </div>
+              </div>
+              <div className="metric-card">
+                <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">
+                  Industry fit
+                </div>
+                <div className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
+                  Designed for labs, demos, project showcases, and education-industry explainers where clarity and engagement matter.
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        </section>
 
-        {tab === "sim" ? <Simulator /> : <Comparison />}
+        <section className="mt-6 grid gap-4 xl:grid-cols-[1.2fr,0.8fr]">
+          <div className="panel panel-strong rounded-[1.75rem] p-5 sm:p-6">
+            <div className="eyebrow">Experience layer</div>
+            <h2 className="mt-3 text-2xl font-semibold text-slate-950 dark:text-white">
+              {activeTab.title}
+            </h2>
+            <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-600 dark:text-slate-300">
+              {activeTab.description}
+            </p>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-3 xl:grid-cols-1">
+            <div className="metric-card">
+              <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">
+                Learning loop
+              </div>
+              <div className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
+                Generate, predict, reveal, compare, repeat.
+              </div>
+            </div>
+            <div className="metric-card">
+              <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">
+                Visual language
+              </div>
+              <div className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
+                Mission-control framing helps learners read hits, faults, and replacements faster.
+              </div>
+            </div>
+            <div className="metric-card">
+              <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">
+                Engine
+              </div>
+              <div className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
+                Existing React and C++ simulator logic stays intact beneath the upgraded interface.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div className="mt-6">{tab === "sim" ? <Simulator /> : <Comparison />}</div>
       </main>
 
-      <footer className="mx-auto max-w-6xl px-4 pb-10 pt-4 text-xs text-zinc-600 dark:text-zinc-400">
-        Built with React + Tailwind + Chart.js. Algorithms run in C++ via a local API.
+      <footer className="mx-auto max-w-7xl px-4 pb-10 pt-2 text-xs text-slate-500 sm:px-6 lg:px-8 dark:text-slate-400">
+        Adaptive Behavioral Simulation Lab for memory management education. Powered by React, Tailwind, Chart.js, and the local C++ simulation engine.
       </footer>
 
       <HelpModal open={helpOpen} onClose={() => setHelpOpen(false)} />

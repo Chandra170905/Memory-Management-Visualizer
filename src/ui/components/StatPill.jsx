@@ -1,15 +1,30 @@
-export default function StatPill({ label, value, tone }) {
+export default function StatPill({ label, value, tone = "neutral", note = "" }) {
   const toneClass =
     tone === "good"
-      ? "bg-sky-50 text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100"
+      ? "metric-good"
       : tone === "bad"
-        ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900"
-        : "bg-slate-50 text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100";
+        ? "metric-bad"
+        : tone === "accent"
+          ? "metric-accent"
+          : "";
 
   return (
-    <div className={["rounded-2xl p-4 shadow-sm", toneClass].join(" ")}>
-      <div className="text-xs font-semibold opacity-80">{label}</div>
-      <div className="mt-1 text-2xl font-semibold tabular-nums">{value}</div>
+    <div className={["metric-card", toneClass].join(" ")}>
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">
+            {label}
+          </div>
+          {note ? (
+            <div className="mt-2 max-w-[12rem] text-xs leading-5 text-slate-600 dark:text-slate-300">
+              {note}
+            </div>
+          ) : null}
+        </div>
+        <div className="text-3xl font-semibold tabular-nums text-slate-950 dark:text-white">
+          {value}
+        </div>
+      </div>
     </div>
   );
 }

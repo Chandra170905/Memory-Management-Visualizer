@@ -3,83 +3,84 @@ export default function HelpModal({ open, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 grid place-items-center bg-zinc-950/50 p-4"
+      className="fixed inset-0 z-50 grid place-items-center bg-slate-950/60 p-4"
       role="dialog"
       aria-modal="true"
       aria-label="Help"
-      onMouseDown={(e) => {
-        if (e.target === e.currentTarget) onClose();
+      onMouseDown={(event) => {
+        if (event.target === event.currentTarget) onClose();
       }}
     >
-      <div className="w-full max-w-3xl rounded-2xl bg-white p-5 shadow-xl dark:bg-zinc-900">
+      <div className="w-full max-w-4xl rounded-[2rem] border border-slate-200/70 bg-white/95 p-6 shadow-2xl shadow-slate-950/10 dark:border-slate-800 dark:bg-slate-950/95">
         <div className="flex items-start justify-between gap-3">
           <div>
-            <div className="text-base font-semibold">Quick help</div>
-            <div className="mt-1 text-sm text-zinc-600 dark:text-zinc-300">
-              Beginner-friendly guide to run simulations and understand results.
+            <div className="eyebrow">Learning guide</div>
+            <div className="mt-2 text-2xl font-semibold text-slate-950 dark:text-white">
+              How to teach with the adaptive simulation lab
+            </div>
+            <div className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
+              Use the simulator like a mission console: generate a workload, predict the next move, then confirm it with the live memory monitor.
             </div>
           </div>
           <button
             onClick={onClose}
-            className="rounded-xl bg-zinc-100 px-3 py-2 text-sm font-semibold text-zinc-800 shadow-sm transition hover:bg-zinc-200/70 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
+            className="secondary-button px-4 py-2 text-sm font-semibold"
           >
             Close
           </button>
         </div>
 
-        <div className="mt-4 grid gap-4 md:grid-cols-2">
-          <section className="rounded-2xl bg-slate-50 p-4 text-sm text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
-            <div className="text-sm font-semibold">How to use</div>
-            <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm text-zinc-600 dark:text-zinc-300">
-              <li>Pick a preset (or type your own reference string).</li>
-              <li>Choose how many frames (memory blocks) you have.</li>
-              <li>Click Run, then use Next/Play to watch frames update.</li>
-              <li>Switch to Comparison to see total faults for all algorithms.</li>
+        <div className="mt-6 grid gap-4 md:grid-cols-2">
+          <section className="rounded-[1.75rem] border border-slate-200/70 bg-slate-50/80 p-5 text-sm text-slate-900 dark:border-slate-800 dark:bg-slate-950/70 dark:text-slate-100">
+            <div className="text-sm font-semibold">Mission flow</div>
+            <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm leading-6 text-slate-600 dark:text-slate-300">
+              <li>Choose a preset or generate an adaptive workload with the behavior controls.</li>
+              <li>Set frame capacity and select an algorithm strategy.</li>
+              <li>Press Run, then use Next, fault jumps, or autoplay to narrate the trace.</li>
+              <li>Move to Algorithm Arena to compare which policy handled the same workload best.</li>
             </ol>
-            <div className="mt-3 text-xs text-zinc-500 dark:text-zinc-400">
-              Tip: use the Share button to copy a link that re-opens the same setup.
+            <div className="mt-4 text-xs text-slate-500 dark:text-slate-400">
+              Tip: use Share to preserve the same setup for a lecture or lab handout.
             </div>
           </section>
 
-          <section className="rounded-2xl bg-slate-50 p-4 text-sm text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
+          <section className="rounded-[1.75rem] border border-slate-200/70 bg-slate-50/80 p-5 text-sm text-slate-900 dark:border-slate-800 dark:bg-slate-950/70 dark:text-slate-100">
             <div className="text-sm font-semibold">Glossary</div>
-            <div className="mt-2 grid gap-2 text-sm text-zinc-600 dark:text-zinc-300">
+            <div className="mt-3 grid gap-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
               <div>
-                <span className="font-semibold">Reference string:</span> the sequence of
-                requested pages (example: <span className="font-mono">7 0 1 2 0</span>).
+                <span className="font-semibold">Reference string:</span> the ordered stream of requested pages, such as <span className="font-mono">7 0 1 2 0</span>.
               </div>
               <div>
-                <span className="font-semibold">Frame:</span> one slot in memory that can hold
-                one page.
+                <span className="font-semibold">Frame:</span> one resident slot in main memory.
               </div>
               <div>
-                <span className="font-semibold">Hit:</span> page already in a frame (no
-                replacement).
+                <span className="font-semibold">Hit:</span> the requested page is already resident, so no replacement is needed.
               </div>
               <div>
-                <span className="font-semibold">Page fault:</span> page not in memory, so the
-                algorithm loads it (may replace another page).
+                <span className="font-semibold">Page fault:</span> the requested page is absent, so memory must load it and may evict another page.
+              </div>
+              <div>
+                <span className="font-semibold">Locality:</span> the tendency for recently used pages to be used again soon.
               </div>
             </div>
           </section>
         </div>
 
-        <section className="mt-4 rounded-2xl bg-stone-50 p-4 text-sm dark:bg-zinc-950">
-          <div className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-            Troubleshooting
+        <section className="mt-4 rounded-[1.75rem] border border-slate-200/70 bg-stone-50/80 p-5 text-sm dark:border-slate-800 dark:bg-slate-950/70">
+          <div className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+            Classroom ideas and troubleshooting
           </div>
-          <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-zinc-600 dark:text-zinc-300">
+          <ul className="mt-3 list-disc space-y-2 pl-5 text-sm leading-6 text-slate-600 dark:text-slate-300">
+            <li>Pause on a fault and ask which page each algorithm should evict before revealing the answer.</li>
+            <li>Use the arena view to discuss why practical algorithms can still trail the Optimal benchmark.</li>
             <li>
-              If you see API errors, start everything with{" "}
-              <span className="font-mono">npm run dev</span>.
+              If you see API errors, start everything with <span className="font-mono">npm run dev</span>.
             </li>
             <li>
-              If the status says “build C++”, run{" "}
-              <span className="font-mono">npm run build:cpp</span> once.
+              If the status says "build C++", run <span className="font-mono">npm run build:cpp</span> once.
             </li>
             <li>
-              The API should be reachable at{" "}
-              <span className="font-mono">http://localhost:5174/api/health</span>.
+              The API should be reachable at <span className="font-mono">http://localhost:5174/api/health</span>.
             </li>
           </ul>
         </section>

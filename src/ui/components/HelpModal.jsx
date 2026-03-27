@@ -74,13 +74,13 @@ export default function HelpModal({ open, onClose }) {
             <li>Pause on a fault and ask which page each algorithm should evict before revealing the answer.</li>
             <li>Use the arena view to discuss why practical algorithms can still trail the Optimal benchmark.</li>
             <li>
-              If you see API errors, start everything with <span className="font-mono">npm run dev</span>.
+              The simulator works in browser mode even without the API, so deployments can still demonstrate paging logic.
             </li>
             <li>
-              If the status says "build C++", run <span className="font-mono">npm run build:cpp</span> once.
+              If you want the optional local C++ engine, start everything with <span className="font-mono">npm run dev</span>.
             </li>
             <li>
-              The API should be reachable at <span className="font-mono">http://localhost:5174/api/health</span>.
+              If the status says local API without C++, run <span className="font-mono">npm run build:cpp</span> once.
             </li>
           </ul>
         </section>

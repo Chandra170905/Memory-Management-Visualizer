@@ -1,20 +1,15 @@
 import { useEffect, useState } from "react";
+import { getEngineStatus } from "../../lib/api.js";
 
 export default function ApiStatus() {
-  const [state, setState] = useState({ ok: null, binaryExists: null });
+  const [state, setState] = useState({ mode: "loading" });
 
   useEffect(() => {
     let cancelled = false;
 
     async function tick() {
-      try {
-        const res = await fetch("/api/health");
-        if (!res.ok) throw new Error("bad");
-        const data = await res.json();
-        if (!cancelled) setState({ ok: true, binaryExists: !!data?.binaryExists });
-      } catch {
-        if (!cancelled) setState({ ok: false, binaryExists: null });
-      }
+      const nextState = await getEngineStatus();
+      if (!cancelled) setState(nextState);
     }
 
     tick();
@@ -26,31 +21,34 @@ export default function ApiStatus() {
     };
   }, []);
 
-  const label =
-    state.ok === null
-      ? "Engine checking..."
-      : state.ok
-        ? state.binaryExists
-          ? "Engine online"
-          : "API online, build C++"
-        : "Engine offline";
-
-  const toneClass =
-    state.ok === null
-      ? "text-slate-500 dark:text-slate-300"
-      : state.ok
-        ? state.binaryExists
-          ? "text-emerald-500"
-          : "text-amber-500"
-        : "text-rose-500";
+  const meta =
+    state.mode === "loading"
+      ? {
+          label: "Engine checking...",
+          dot: "text-slate-500 dark:text-slate-300"
+        }
+      : state.mode === "local-cpp"
+        ? {
+            label: "Local C++ engine",
+            dot: "text-emerald-500"
+          }
+        : state.mode === "local-api"
+          ? {
+              label: "Local API, browser sim ready",
+              dot: "text-amber-500"
+            }
+          : {
+              label: "Browser simulation mode",
+              dot: "text-sky-500"
+            };
 
   return (
     <div
       className="status-chip hidden items-center gap-2 rounded-full px-3 py-2 text-xs font-semibold shadow-sm sm:inline-flex"
-      title="Server status (http://localhost:5174)"
+      title="Simulation engine status"
     >
-      <span className={["status-dot", toneClass].join(" ")} />
-      {label}
+      <span className={["status-dot", meta.dot].join(" ")} />
+      {meta.label}
     </div>
   );
 }

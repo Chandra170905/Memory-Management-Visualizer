@@ -191,7 +191,7 @@ export default function Simulator() {
       setStepIndex(0);
       setError(
         String(exception?.message || exception) +
-          "\nTip: start the API server and build the C++ binary with `npm run build:cpp`."
+          "\nTip: the app now runs in browser simulation mode by default. If you want the optional local C++ engine, start the API server and run `npm run build:cpp`."
       );
     } finally {
       setLoading(false);
